@@ -17,8 +17,8 @@ const OrderList = ({ product, loading, setLoading, room, token, onUpdated }) => 
 
     const formData = {
       room_id: room,
-      product_id: product?.id,
-      quantity: product?.quantity === 1 ? 1 : returnedProduct,
+      products_id: [product?.id],
+      products_quantity: [product?.quantity === 1 ? 1 : returnedProduct],
       action: 'minus'
     };
     setLoading(true);

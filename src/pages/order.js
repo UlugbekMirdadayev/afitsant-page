@@ -59,107 +59,28 @@ const Order = () => {
     getOldOrders();
   }, [getOldOrders]);
 
-  // const handleOrderComplete = (order_id) => {
-  //   if (!order_id) return;
-  //   setLoading(true);
-  //   patchRequest(`order/report/${order_id}`, {}, user?.token)
-  //     .then(({ data }) => {
-  //       getRequest('order', user?.token)
-  //         .then((orders) => {
-  //           dispatch(setOrders(orders?.data?.result));
-  //           setLoading(false);
-  //           dispatch(setRoomCompleted({ room: id }));
-  //         })
-  //         .catch((err) => {
-  //           toast.error(err?.response?.data?.result || 'Error');
-  //           setLoading(false);
-  //         });
-  //       toast.success(data?.message || 'Success');
-  //       setLoading(false);
-  //       navigate('/rooms');
-  //     })
-  //     .catch((err) => {
-  //       setLoading(false);
-  //       toast.success(err?.response?.data?.result || 'Error');
-  //     });
-  // };
-
-  // const handleSendMessage = (array, option) => {
-  //   if (!array?.length || !option?.label) return;
-  //   const data = {
-  //     data: {
-  //       products: array?.map((product) => ({
-  //         name: product?.name,
-  //         quantity: product?.count
-  //       }))
-  //     },
-  //     printer: option?.printer,
-  //     waiter: user?.fullname,
-  //     room: thisRoom?.name
-  //   };
-
-  //   const config = {
-  //     method: 'post',
-  //     maxBodyLength: Infinity,
-  //     url: 'http://192.168.1.99:6001/example/interface/ethernet.php',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     },
-  //     data: data
-  //   };
-
-  //   axios
-  //     .request(config)
-  //     .then((response) => {
-  //       console.log(JSON.stringify(response.data));
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-
-  //   if (!array?.length || !option?.label) return;
-  //   const message = `<b>Xona/Stol raqami:${thisRoom?.name}</b>\n<i>Ofitsant ismi\n${user?.fullname}</i>\n\n<b>Buyurmalar:</b>\n${array
-  //     ?.map((product) => `<b>${product?.name?.toUpperCase()} (${product?.count}-${product?.unit})</b>`)
-  //     .join('\n')}`;
-  //   fetch(sendMessageTelegram(encodeURI(message), option?.value))
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log(data, 'success');
-  //     })
-  //     .catch((err) => {
-  //       console.log(err, 'err');
-  //     });
-  // };
-
-  // const departmentArray = (_department) => thisRoomOrders.filter(({ department }) => department === _department);
-
   const handleAddCart = () => {
-    // departments.map((option) => handleSendMessage(departmentArray(option?.value), option));
     setLoading(true);
-    thisRoomOrders.forEach((product, index) => {
-      postRequest(
-        'room/merge',
-        {
-          room_id: id,
-          product_id: product?.id,
-          quantity: product?.count,
-          action: 'plus'
-        },
-        user?.token
-      )
-        .then(({ data }) => {
-          setLoading(false);
-          if (index === thisRoomOrders.length - 1) {
-            getOldOrders();
-            toast.success(data?.result);
-          }
-          dispatch(setRoomCompleted({ room: id }));
-        })
-        .catch((err) => {
-          toast.error(err?.response?.data?.result || 'Error');
-          setLoading(false);
-        });
-    });
+    postRequest(
+      'room/merge',
+      {
+        room_id: id,
+        products_id: thisRoomOrders?.map(({ id }) => id),
+        products_quantity: thisRoomOrders?.map(({ count }) => count),
+        action: 'plus'
+      },
+      user?.token
+    )
+      .then(({ data }) => {
+        setLoading(false);
+        getOldOrders();
+        toast.success(data?.result);
+        dispatch(setRoomCompleted({ room: id }));
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.result || 'Error');
+        setLoading(false);
+      });
   };
 
   const handleOpenDetails = () => {

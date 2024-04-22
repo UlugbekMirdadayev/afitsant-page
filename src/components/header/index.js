@@ -27,6 +27,10 @@ const Header = () => {
   const localeOrders = useLocaleOrders();
   const [confirmLogout, setConfirmLogout] = useState(false);
 
+  useEffect(() => {
+    if (!user) navigate('/login', { replace: true });
+  }, []);
+
   const getRoom = () => {
     getRequest('room/get', user?.token)
       .then(({ data }) => {

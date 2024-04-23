@@ -30,7 +30,7 @@ const Register = () => {
       })
       .catch(({ response } = { response: {} }) => {
         setLoading(false);
-        toast.error(response?.data?.message || 'Error');
+        toast.error(JSON.stringify(response?.data?.errors || response?.data?.result || 'Xatolik yuz berdi !'));
       });
   };
 

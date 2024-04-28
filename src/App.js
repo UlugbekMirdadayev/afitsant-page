@@ -33,7 +33,7 @@ const App = () => {
       const message = JSON.parse(event?.data || '{}');
       console.log(message);
       if (message?.method === 'updateRooms') {
-        dispatch(setRooms(message?.rooms));
+        dispatch(setRooms(message?.rooms?.map((room) => ({ ...room, is_belongs_to_user: room?.user_id === user?.id }))));
       }
     };
 

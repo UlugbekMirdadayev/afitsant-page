@@ -50,7 +50,7 @@ const Register = () => {
         <h3>{'Kirish'}</h3>
 
         <label htmlFor="phone">Telefon raqami</label>
-        <input type="tel" placeholder="998xxxyyzz" id="phone" name="phone" />
+        <input type="tel" placeholder="998xxxyyzz" id="phone" name="phone" defaultValue={"+998"} />
 
         <label htmlFor="password">Parol</label>
         <input type="password" placeholder="Parol" id="password" name="password" />

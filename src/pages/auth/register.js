@@ -23,7 +23,7 @@ const Register = () => {
       .catch((err) => {
         console.log(err);
         setLoading(false);
-        toast.error(JSON.stringify(err?.response?.data?.errors || "Xatolik yuz berdi"));
+        toast.error(JSON.stringify(err?.response?.data?.errors || 'Xatolik yuz berdi'));
       });
   };
   return (
@@ -39,7 +39,7 @@ const Register = () => {
         <input type="text" placeholder="ism familiya" id="full_name" name="full_name" />
 
         <label htmlFor="phone_number">Telefon raqami</label>
-        <input type="tel" placeholder="998xxxyyzz" id="phone_number" name="phone_number" />
+        <input type="tel" placeholder="998xxxyyzz" id="phone_number" name="phone_number" defaultValue={'+998'} />
 
         <label htmlFor="password">Parol</label>
         <input type="password" placeholder="Parol" id="password" name="password" />

@@ -1,28 +1,9 @@
-import React, { useCallback, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { useRooms, useUser } from '../redux/selectors';
-import { getRequest } from 'services/api';
-import { useDispatch } from 'react-redux';
-import { setRooms } from '../redux/rooms';
+import { useRooms } from '../redux/selectors';
 
 const Rooms = () => {
-  const dispatch = useDispatch();
-  const user = useUser();
   const rooms = useRooms();
-
-  const getRoom = useCallback(() => {
-    getRequest('room/get', user?.token)
-      .then(({ data }) => {
-        dispatch(setRooms(data?.result));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [user?.token]);
-
-  useEffect(() => {
-    getRoom();
-  }, [getRoom]);
 
   return (
     <div className="container-md">

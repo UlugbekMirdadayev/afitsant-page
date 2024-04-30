@@ -1,5 +1,5 @@
-export const BASE_URL = 'https://epos-admin.dadabayev.uz/api/';
-export const IMG_URL = 'https://epos-admin.dadabayev.uz/';
+export const BASE_URL = 'http://epos/api/';
+export const IMG_URL = 'http://epos/';
 
 export const sendMessageTelegram = (message = '', chatID) => {
   const config = {

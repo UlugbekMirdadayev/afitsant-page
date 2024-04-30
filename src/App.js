@@ -6,7 +6,7 @@ import Header from 'components/header';
 import { useUser } from './redux/selectors';
 import { setRooms } from './redux/rooms';
 
-const SOCKET_SERVER_URL = 'ws://localhost:8887/';
+const SOCKET_SERVER_URL = 'wss://epos-admin.dadabayev.uz/websocket/';
 
 const privatPages = ['/register', '/login'];
 

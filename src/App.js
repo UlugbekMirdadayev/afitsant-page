@@ -15,6 +15,12 @@ const App = () => {
   const user = useUser();
   const dispatch = useDispatch();
 
+  const methods = {
+    updateRooms: (data) => {
+      dispatch(setRooms(data?.rooms?.map((room) => ({ ...room, is_belongs_to_user: room?.user_id === user?.id }))));
+    }
+  };
+
   useEffect(() => {
     const socket = new WebSocket(SOCKET_SERVER_URL); // Replace with your WebSocket server URL
 
@@ -31,10 +37,7 @@ const App = () => {
 
     socket.onmessage = (event) => {
       const message = JSON.parse(event?.data || '{}');
-      console.log(message);
-      if (message?.method === 'updateRooms') {
-        dispatch(setRooms(message?.rooms?.map((room) => ({ ...room, is_belongs_to_user: room?.user_id === user?.id }))));
-      }
+      methods[message?.method]?.(message);
     };
 
     socket.onclose = () => {

@@ -10,6 +10,7 @@ import { getRequest, postRequest } from 'services/api';
 import { useLocaleOrders, useOrders, useProducts, useUser } from '../redux/selectors';
 import { setRoomCompleted } from '../redux/localeOrders';
 import OrderList from 'components/order-list';
+import { setProducts } from '../redux/products';
 // import axios from 'axios';
 
 const Order = () => {
@@ -59,6 +60,19 @@ const Order = () => {
     getOldOrders();
   }, [getOldOrders]);
 
+  const getProduct = useCallback(() => {
+    setLoading(true);
+    getRequest('product/get', user?.token)
+      .then((products) => {
+        setLoading(false);
+        dispatch(setProducts(products?.data?.result));
+      })
+      .catch((err) => {
+        console.log(err?.response?.data?.result);
+        setLoading(false);
+      });
+  }, [dispatch]);
+
   const handleAddCart = () => {
     setLoading(true);
     postRequest(
@@ -76,6 +90,7 @@ const Order = () => {
         getOldOrders();
         toast.success(data?.result);
         dispatch(setRoomCompleted({ room: id }));
+        getProduct();
       })
       .catch((err) => {
         toast.error(err?.response?.data?.result || 'Error');

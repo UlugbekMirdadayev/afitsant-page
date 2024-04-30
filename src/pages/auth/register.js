@@ -15,7 +15,11 @@ const Register = () => {
     }
     setError(false);
     setLoading(true);
-    post('auth/register', Object.fromEntries(new FormData(form.target)))
+    post('auth/register', {
+      full_name,
+      phone_number: phone_number?.replace('+', ''),
+      password
+    })
       .then(() => {
         toast.success('Muvaffaqiyatli ro`yxatdan o`tdingiz');
         navigate('/login');

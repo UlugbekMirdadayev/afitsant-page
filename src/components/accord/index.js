@@ -12,7 +12,9 @@ const Accord = ({ room, id, defaultOpened = false, thisRoomOrders = [] }) => {
 
   const handleAddBasket = useCallback(
     (recep) => {
-      dispatch(addLocaleOrder({ ...recep, room: id }));
+      if (recep?.quantity >= thisSelectedProd(recep)?.count + 1) {
+        dispatch(addLocaleOrder({ ...recep, room: id }));
+      }
     },
     [id, thisRoomOrders]
   );
@@ -48,7 +50,10 @@ const Accord = ({ room, id, defaultOpened = false, thisRoomOrders = [] }) => {
             <div key={index} className={`room rec`}>
               <img className="product-image" src={IMG_URL + recep?.image_path} alt={recep.name} />
               <span className="title-prod">{recep?.name}</span>
-              <span className="price-prod">Narxi: {formatCurrencyUZS(recep?.sell_price)}</span>
+              <div>
+                <div className="price-prod">Narxi: {formatCurrencyUZS(recep?.sell_price)}</div>
+                <span className="price-prod">Soni: {recep?.quantity}</span>
+              </div>
               {thisSelectedProd(recep)?.count ? (
                 <button className="row-bottom">
                   <Minus onClick={() => handleRemoveBasket(recep)} />
@@ -56,11 +61,7 @@ const Accord = ({ room, id, defaultOpened = false, thisRoomOrders = [] }) => {
                   <Plus onClick={() => handleAddBasket(recep)} />
                 </button>
               ) : (
-                <button
-                  onClick={() => {
-                    handleAddBasket(recep);
-                  }}
-                >{`Qo'shish`}</button>
+                <button onClick={() => handleAddBasket(recep)}>{`Qo'shish`}</button>
               )}
             </div>
           ))}

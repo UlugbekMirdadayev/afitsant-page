@@ -20,7 +20,7 @@ const Register = () => {
     }
     setError(false);
     setLoading(true);
-    post('auth/login', { phone_number: phone, password })
+    post('auth/login', { phone_number: phone?.replace('+', ''), password })
       .then(({ data }) => {
         setLoading(false);
         toast.success(data?.message || 'Success');
@@ -50,7 +50,7 @@ const Register = () => {
         <h3>{'Kirish'}</h3>
 
         <label htmlFor="phone">Telefon raqami</label>
-        <input type="tel" placeholder="998xxxyyzz" id="phone" name="phone" defaultValue={"+998"} />
+        <input type="tel" placeholder="998xxxyyzz" id="phone" name="phone" defaultValue={'+998'} />
 
         <label htmlFor="password">Parol</label>
         <input type="password" placeholder="Parol" id="password" name="password" />

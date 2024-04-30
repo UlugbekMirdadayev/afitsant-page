@@ -27,7 +27,7 @@ const Accord = ({ room, id, defaultOpened = false, thisRoomOrders = [] }) => {
   );
 
   const thisSelectedProd = (prods) => {
-    return thisRoomOrders?.find((rec) => rec?.id === prods?.id);
+    return thisRoomOrders?.find((rec) => rec?.id === prods?.id) || { count: 0 };
   };
 
   return (

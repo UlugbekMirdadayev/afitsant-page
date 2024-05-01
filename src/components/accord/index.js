@@ -12,6 +12,7 @@ const Accord = ({ room, id, defaultOpened = false, thisRoomOrders = [] }) => {
 
   const handleAddBasket = useCallback(
     (recep) => {
+      if (recep?.is_infinite) return dispatch(addLocaleOrder({ ...recep, room: id }));
       if (recep?.quantity >= thisSelectedProd(recep)?.count + 1) {
         dispatch(addLocaleOrder({ ...recep, room: id }));
       }
@@ -52,7 +53,7 @@ const Accord = ({ room, id, defaultOpened = false, thisRoomOrders = [] }) => {
               <span className="title-prod">{recep?.name}</span>
               <div>
                 <div className="price-prod">Narxi: {formatCurrencyUZS(recep?.sell_price)}</div>
-                <span className="price-prod">Soni: {recep?.quantity}</span>
+                <span className="price-prod">Soni: {recep?.is_infinite ? 'Cheksiz' : recep?.quantity}</span>
               </div>
               {thisSelectedProd(recep)?.count ? (
                 <button className="row-bottom">

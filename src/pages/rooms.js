@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useRooms } from '../redux/selectors';
+import { useRooms, useUser } from '../redux/selectors';
 
 const Rooms = () => {
   const rooms = useRooms();
+  const user = useUser();
 
   return (
     <div className="container-md">
@@ -13,9 +14,19 @@ const Rooms = () => {
       <div className="grid">
         {rooms?.map((room) => (
           <Link
-            to={room?.is_active ? (room?.is_belongs_to_user ? `/order/${room?.id}` : undefined) : `/order/${room?.id}`}
+            to={
+              user?.role === 1
+                ? `/order/${room?.id}`
+                : room?.is_active
+                ? room?.is_belongs_to_user
+                  ? `/order/${room?.id}`
+                  : undefined
+                : `/order/${room?.id}`
+            }
             key={room?.id}
-            className={`room ${room?.is_active ? 'busy' : ''} ${room?.is_active ? (room?.is_belongs_to_user ? '' : 'disabled') : ''}`}
+            className={`room ${room?.is_active ? 'busy' : ''} ${
+              user?.role === 1 ? '' : room?.is_active ? (room?.is_belongs_to_user ? '' : 'disabled') : ''
+            }`}
           >
             <p>{room?.name}-stol</p>
             <p>{room?.places}-kishilik</p>

@@ -159,7 +159,7 @@ button {
   justify-content: center;
   flex-direction: column;
   padding: 20px 0px;
-  z-index: 3;
+  z-index: 5;
 }
 .order-btn {
   width: 100%;

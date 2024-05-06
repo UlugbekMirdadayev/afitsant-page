@@ -102,31 +102,6 @@ const Order = () => {
     setIsOrderMore({ open: true });
   };
 
-  // const handleCancel = (order_id) => {
-  //   setLoading(true);
-  //   deleteRequest(`order/${order_id}`, user?.token)
-  //     .then(({ data }) => {
-  //       setLoading(false);
-  //       toast.info(data?.message);
-  //       dispatch(setRoomCompleted({ room: id }));
-  //       getRequest('order', user?.token)
-  //         .then((orders) => {
-  //           dispatch(setOrders(orders?.data?.result));
-  //           setLoading(false);
-  //           dispatch(setRoomCompleted({ room: id }));
-  //         })
-  //         .catch((err) => {
-  //           toast.error(err?.response?.data?.result || 'Error');
-  //           setLoading(false);
-  //         });
-  //       navigate('/rooms');
-  //     })
-  //     .catch((err) => {
-  //       setLoading(false);
-  //       toast.error(err?.response?.data?.result);
-  //     });
-  // };
-
   const handleComplete = () => {
     setLoading(true);
     getRequest(`room/end/${id}`, user?.token)
@@ -188,7 +163,7 @@ const Order = () => {
         <h1 className="full">Menu</h1>
       </div>
 
-      {menus.map((room, key) => (
+      {menus?.sort((a, b) => a?.name?.localeCompare(b?.name))?.map((room, key) => (
         <Accord defaultOpened={!key} key={key} room={room} id={id} thisRoomOrders={thisRoomOrders} />
       ))}
       <div className="bottom-btns">

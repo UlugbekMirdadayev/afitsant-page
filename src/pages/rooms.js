@@ -12,27 +12,29 @@ const Rooms = () => {
         <h1 className="full">joylar royxati</h1>
       </div>
       <div className="grid">
-        {rooms?.map((room) => (
-          <Link
-            to={
-              user?.role === 1
-                ? `/order/${room?.id}`
-                : room?.is_active
-                ? room?.is_belongs_to_user
+        {[...rooms]
+          ?.sort((a, b) => +a?.name - +b?.name)
+          ?.map((room) => (
+            <Link
+              to={
+                user?.role === 1
                   ? `/order/${room?.id}`
-                  : undefined
-                : `/order/${room?.id}`
-            }
-            key={room?.id}
-            className={`room ${room?.is_active ? 'busy' : ''} ${
-              user?.role === 1 ? '' : room?.is_active ? (room?.is_belongs_to_user ? '' : 'disabled') : ''
-            }`}
-          >
-            <p>{room?.name}-stol</p>
-            <p>{room?.places}-kishilik</p>
-            {room?.is_active ? <p>band stol</p> : null}
-          </Link>
-        ))}
+                  : room?.is_active
+                  ? room?.is_belongs_to_user
+                    ? `/order/${room?.id}`
+                    : undefined
+                  : `/order/${room?.id}`
+              }
+              key={room?.id}
+              className={`room ${room?.is_active ? 'busy' : ''} ${
+                user?.role === 1 ? '' : room?.is_active ? (room?.is_belongs_to_user ? '' : 'disabled') : ''
+              }`}
+            >
+              <p>{room?.name}-stol</p>
+              <p>{room?.places}-kishilik</p>
+              {room?.is_active ? <p>band stol</p> : null}
+            </Link>
+          ))}
       </div>
     </div>
   );
